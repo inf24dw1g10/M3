@@ -26,7 +26,7 @@ export class ItemPedidoController {
     public itemPedidoRepository : ItemPedidoRepository,
   ) {}
 
-  @post('/itens-pedido')
+  @post('/items-pedido')
   @response(200, {
     description: 'ItemPedido model instance',
     content: {'application/json': {schema: getModelSchemaRef(ItemPedido)}},
@@ -47,7 +47,7 @@ export class ItemPedidoController {
     return this.itemPedidoRepository.create(itemPedido);
   }
 
-  @get('/itens-pedido')
+  @get('/items-pedido')
   @response(200, {
     description: 'Array of ItemPedido model instances',
     content: {
@@ -65,7 +65,7 @@ export class ItemPedidoController {
     return this.itemPedidoRepository.find(filter);
   }
 
-  @get('/itens-pedido/{id}')
+  @get('/items-pedido/{id}')
   @response(200, {
     description: 'ItemPedido model instance',
     content: {
@@ -81,7 +81,7 @@ export class ItemPedidoController {
     return this.itemPedidoRepository.findById(id, filter);
   }
 
-  @patch('/itens-pedido/{id}')
+  @patch('/items-pedido/{id}')
   @response(204, {
     description: 'ItemPedido PATCH success',
   })
@@ -99,7 +99,7 @@ export class ItemPedidoController {
     await this.itemPedidoRepository.updateById(id, itemPedido);
   }
 
-  @del('/itens-pedido/{id}')
+  @del('/items-pedido/{id}')
   @response(204, {
     description: 'ItemPedido DELETE success',
   })
@@ -107,10 +107,9 @@ export class ItemPedidoController {
     await this.itemPedidoRepository.deleteById(id);
   }
 
-  // Endpoints adicionais para relações
-  @get('/itens-pedido/{id}/pedido')
+  @get('/items-pedido/{id}/pedido')
   @response(200, {
-    description: 'Pedido belonging to ItemPedido',
+    description: 'Pedido pertencente ao ItemPedido',
     content: {
       'application/json': {
         schema: getModelSchemaRef(Pedido),
@@ -120,21 +119,21 @@ export class ItemPedidoController {
   async getPedido(
     @param.path.number('id') id: number,
   ): Promise<Pedido> {
-    return this.itemPedidoRepository.pedido(id);
+    return await this.itemPedidoRepository.pedido(id);
   }
 
-  @get('/itens-pedido/{id}/item-menu')
+  @get('/items-pedido/{id}/menu')
   @response(200, {
-    description: 'Menu item belonging to ItemPedido',
+    description: 'Menu item pertencente ao ItemPedido',
     content: {
       'application/json': {
         schema: getModelSchemaRef(Menu),
       },
     },
   })
-  async getItemMenu(
+  async getMenu(
     @param.path.number('id') id: number,
   ): Promise<Menu> {
-    return this.itemPedidoRepository.itemMenu(id);
+    return await this.itemPedidoRepository.itemMenu(id);
   }
 }

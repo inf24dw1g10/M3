@@ -10,14 +10,29 @@ import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import EventIcon from '@mui/icons-material/Event';
 
+// Configuração do API URL com fallback
+const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:8080/api/v1';
+
+// Configuração do dataProvider com headers personalizados
+const dataProvider = simpleRestProvider(apiUrl, fetch, {
+  headers: new Headers({
+    'Content-Type': 'application/json',
+    'Accept': 'application/json',
+  }),
+});
+
 const App = () => (
-  <Admin dataProvider={simpleRestProvider('http://localhost:3000/api')}>
+  <Admin 
+    dataProvider={dataProvider}
+    title="Gestão do Restaurante"
+  >
     <Resource 
       name="mesas" 
       list={MesaList}
       edit={MesaEdit}
       create={MesaCreate}
       icon={RestaurantIcon}
+      options={{ label: 'Mesas' }}
     />
     <Resource
       name="menu"
@@ -25,6 +40,7 @@ const App = () => (
       edit={MenuEdit}
       create={MenuCreate}
       icon={MenuBookIcon}
+      options={{ label: 'Menu' }}
     />
     <Resource
       name="pedidos"
@@ -32,6 +48,7 @@ const App = () => (
       edit={PedidoEdit}
       create={PedidoCreate}
       icon={ReceiptIcon}
+      options={{ label: 'Pedidos' }}
     />
     <Resource
       name="reservas"
@@ -39,6 +56,7 @@ const App = () => (
       edit={ReservaEdit}
       create={ReservaCreate}
       icon={EventIcon}
+      options={{ label: 'Reservas' }}
     />
   </Admin>
 );

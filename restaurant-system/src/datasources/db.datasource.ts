@@ -4,18 +4,17 @@ import {juggler} from '@loopback/repository';
 const config = {
   name: 'db',
   connector: 'mysql',
-  url: '',
-  host: 'mysql',
-  port: 3306,
-  user: 'restaurant_user',
-  password: 'restaurant_pass',
-  database: 'restaurant'
+  host: process.env.DB_HOST || 'db',         // Mudado para 'db'
+  port: process.env.DB_PORT || 3306,
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || 'root', // Mudado para 'root'
+  database: process.env.DB_DATABASE || 'restaurant', // Mudado para 'restaurant'
+  connectTimeout: 10000,
+  acquireTimeout: 10000,
+  waitForConnections: true,
+  queueLimit: 0
 };
 
-// Observe application's life cycle to disconnect the datasource when
-// application is stopped. This allows the application to be shut down
-// gracefully. The `stop()` method is inherited from `juggler.DataSource`.
-// Learn more at https://loopback.io/doc/en/lb4/Life-cycle.html
 @lifeCycleObserver('datasource')
 export class DbDataSource extends juggler.DataSource
   implements LifeCycleObserver {

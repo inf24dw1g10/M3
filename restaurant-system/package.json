@@ -1,71 +1,37 @@
 {
-  "name": "restaurant-system",
-  "version": "0.0.1",
-  "description": "restaurant system",
-  "keywords": [
-    "loopback-application",
-    "loopback"
-  ],
+  "name": "restaurant-api",
+  "version": "1.0.0",
+  "description": "Restaurant Management System API",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "engines": {
-    "node": "18 || 20 || 22"
-  },
   "scripts": {
-    "build": "lb-tsc",
-    "build:watch": "lb-tsc --watch",
-    "lint": "npm run eslint && npm run prettier:check",
-    "lint:fix": "npm run eslint:fix && npm run prettier:fix",
-    "prettier:cli": "lb-prettier \"**/*.ts\" \"**/*.js\"",
-    "prettier:check": "npm run prettier:cli -- -l",
-    "prettier:fix": "npm run prettier:cli -- --write",
-    "eslint": "lb-eslint --report-unused-disable-directives .",
-    "eslint:fix": "npm run eslint -- --fix",
-    "pretest": "npm run rebuild",
-    "test": "lb-mocha --allow-console-logs \"dist/__tests__\"",
-    "posttest": "npm run lint",
-    "test:dev": "lb-mocha --allow-console-logs dist/__tests__/**/*.js && npm run posttest",
-    "docker:build": "docker build -t restaurant-system .",
-    "docker:run": "docker run -p 3000:3000 -d restaurant-system",
-    "premigrate": "npm run build",
-    "migrate": "node ./dist/migrate",
-    "preopenapi-spec": "npm run build",
-    "openapi-spec": "node ./dist/openapi-spec",
-    "prestart": "npm run rebuild",
-    "start": "node -r source-map-support/register .",
-    "clean": "lb-clean dist *.tsbuildinfo .eslintcache",
-    "rebuild": "npm run clean && npm run build"
+    "build": "tsc",
+    "clean": "rimraf dist *.tsbuildinfo",
+    "init-db": "tsc && node dist/init-database.js",
+    "start": "npm run init-db && node -r dotenv/config .",
+    "dev": "tsc --watch"
   },
-  "repository": {
-    "type": "git",
-    "url": ""
-  },
-  "author": "Nuno Pereira <160899645+nunotapxD@users.noreply.github.com>",
-  "license": "",
-  "files": [
-    "README.md",
-    "dist",
-    "src",
-    "!*/__tests__"
-  ],
   "dependencies": {
-    "@loopback/boot": "^7.0.10",
-    "@loopback/core": "^6.1.7",
-    "@loopback/repository": "^7.0.10",
-    "@loopback/rest": "^14.0.10",
-    "@loopback/rest-explorer": "^7.0.10",
-    "@loopback/service-proxy": "^7.0.10",
-    "loopback-connector-mysql": "^7.0.18",
-    "mysql2": "^3.12.0",
+    "@loopback/boot": "^5.0.0",
+    "@loopback/core": "^4.0.0",
+    "@loopback/repository": "^5.0.0",
+    "@loopback/rest": "^12.0.0",
+    "@loopback/rest-explorer": "^5.0.0",
+    "@loopback/service-proxy": "^5.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "loopback-connector-mysql": "^5.3.0",
+    "mysql2": "^2.3.3",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@loopback/build": "^11.0.9",
-    "@loopback/eslint-config": "^15.0.5",
-    "@loopback/testlab": "^7.0.9",
-    "@types/node": "^16.18.123",
-    "eslint": "^8.57.1",
+    "@loopback/build": "^9.0.0",
+    "@loopback/eslint-config": "^13.0.0",
+    "@loopback/testlab": "^5.0.0",
+    "@types/node": "^14.18.0",
+    "eslint": "^8.0.0",
+    "nodemon": "^2.0.0",
+    "rimraf": "^5.0.0",
     "source-map-support": "^0.5.21",
-    "typescript": "~5.2.2"
+    "typescript": "~4.9.5"
   }
 }

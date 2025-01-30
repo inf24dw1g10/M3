@@ -1,0 +1,304 @@
+{
+    "info": {
+        "name": "Restaurante API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Menu",
+            "item": [
+                {
+                    "name": "Listar Itens do Menu",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu"]
+                        }
+                    }
+                },
+                {
+                    "name": "Obter Item do Menu por ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar Item do Menu",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"nome\": \"Pizza Margherita\",\n    \"descricao\": \"Pizza tradicional italiana\",\n    \"preco\": 45.90,\n    \"categoria\": \"Pizzas\",\n    \"disponivel\": true\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu"]
+                        }
+                    }
+                },
+                {
+                    "name": "Atualizar Item do Menu",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"nome\": \"Pizza Margherita Especial\",\n    \"descricao\": \"Pizza tradicional italiana com ingredientes premium\",\n    \"preco\": 55.90,\n    \"categoria\": \"Pizzas\",\n    \"disponivel\": true\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Deletar Item do Menu",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Listar Itens por Categoria",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/menu/categoria/Pizzas",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "menu", "categoria", "Pizzas"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Mesas",
+            "item": [
+                {
+                    "name": "Listar Mesas",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas"]
+                        }
+                    }
+                },
+                {
+                    "name": "Obter Mesa por ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar Mesa",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"numero\": 1,\n    \"capacidade\": 4,\n    \"status\": \"livre\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas"]
+                        }
+                    }
+                },
+                {
+                    "name": "Atualizar Mesa",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"numero\": 1,\n    \"capacidade\": 6,\n    \"status\": \"ocupada\"\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Deletar Mesa",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Listar Pedidos da Mesa",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/mesas/1/pedidos",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "mesas", "1", "pedidos"]
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "name": "Pedidos",
+            "item": [
+                {
+                    "name": "Listar Pedidos",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/pedidos",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "pedidos"]
+                        }
+                    }
+                },
+                {
+                    "name": "Obter Pedido por ID",
+                    "request": {
+                        "method": "GET",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/pedidos/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "pedidos", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Criar Pedido",
+                    "request": {
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"mesa_id\": 1,\n    \"status\": \"pendente\",\n    \"total\": 91.80,\n    \"itens\": [\n        {\n            \"item_menu_id\": 1,\n            \"quantidade\": 2,\n            \"observacoes\": \"Sem cebola\"\n        }\n    ]\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/pedidos",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "pedidos"]
+                        }
+                    }
+                },
+                {
+                    "name": "Atualizar Pedido",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"mesa_id\": 1,\n    \"status\": \"preparando\",\n    \"total\": 91.80\n}"
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/pedidos/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "pedidos", "1"]
+                        }
+                    }
+                },
+                {
+                    "name": "Deletar Pedido",
+                    "request": {
+                        "method": "DELETE",
+                        "url": {
+                            "raw": "http://localhost:8080/api/v1/pedidos/1",
+                            "protocol": "http",
+                            "host": ["localhost"],
+                            "port": "8080",
+                            "path": ["api", "v1", "pedidos", "1"]
+                        }
+                    }
+                }
+            ]
+        }
+    ]
+}

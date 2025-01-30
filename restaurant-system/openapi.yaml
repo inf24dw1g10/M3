@@ -1,0 +1,544 @@
+openapi: 3.0.0
+info:
+  title: Sistema de Gestão de Restaurante
+  description: |
+    API REST para gestão completa de restaurante:
+    - Menu e categorias
+    - Reservas e mesas
+    - Pedidos e pagamentos
+    - Funcionários
+  version: 1.0.0
+servers:
+- url: http://localhost:8080/api/v1
+  description: Development server
+tags:
+- name: Menu
+  description: Operações relacionadas ao menu e suas categorias
+- name: Mesas
+  description: Gerenciamento de mesas e reservas
+- name: Pedidos
+  description: Gerenciamento de pedidos
+- name: Funcionários
+  description: Controle de funcionários
+- name: Pagamentos
+  description: Operações de pagamento
+paths:
+  /menu:
+    get:
+      tags:
+      - Menu
+      summary: Lista todos os itens do menu
+      operationId: menuGET
+      parameters:
+      - name: categoria
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: disponivel
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: precoMax
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: number
+      responses:
+        "200":
+          description: Lista de itens
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ItemMenu"
+                x-content-type: application/json
+      x-swagger-router-controller: Menu
+    post:
+      tags:
+      - Menu
+      summary: Adiciona novo item ao menu
+      operationId: menuPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemMenuInput"
+        required: true
+      responses:
+        "201":
+          description: Item criado
+      x-swagger-router-controller: Menu
+  /menu/{itemId}:
+    get:
+      tags:
+      - Menu
+      summary: Obtém item específico
+      operationId: menuItemIdGET
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Item encontrado
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ItemMenu"
+      x-swagger-router-controller: Menu
+    put:
+      tags:
+      - Menu
+      summary: Atualiza item do menu
+      operationId: menuItemIdPUT
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemMenuInput"
+        required: true
+      responses:
+        "200":
+          description: Item atualizado
+      x-swagger-router-controller: Menu
+    delete:
+      tags:
+      - Menu
+      summary: Remove item do menu
+      operationId: menuItemIdDELETE
+      parameters:
+      - name: itemId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        "204":
+          description: Item removido
+      x-swagger-router-controller: Menu
+  /mesas:
+    get:
+      tags:
+      - Mesas
+      summary: Lista todas as mesas
+      operationId: mesasGET
+      parameters:
+      - name: status
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - livre
+          - ocupada
+          - reservada
+      responses:
+        "200":
+          description: Lista de mesas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Mesa"
+                x-content-type: application/json
+      x-swagger-router-controller: Mesas
+    post:
+      tags:
+      - Mesas
+      summary: Adiciona nova mesa
+      operationId: mesasPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MesaInput"
+        required: true
+      responses:
+        "201":
+          description: Mesa criada
+      x-swagger-router-controller: Mesas
+  /mesas/{mesaId}/reservas:
+    get:
+      tags:
+      - Mesas
+      summary: Lista reservas da mesa
+      operationId: mesasMesaIdReservasGET
+      parameters:
+      - name: mesaId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: data
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          format: date
+      responses:
+        "200":
+          description: Lista de reservas
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reserva"
+                x-content-type: application/json
+      x-swagger-router-controller: Mesas
+    post:
+      tags:
+      - Mesas
+      summary: Faz nova reserva
+      operationId: mesasMesaIdReservasPOST
+      parameters:
+      - name: mesaId
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReservaInput"
+        required: true
+      responses:
+        "201":
+          description: Reserva criada
+      x-swagger-router-controller: Mesas
+  /pedidos:
+    get:
+      tags:
+      - Pedidos
+      summary: Lista todos os pedidos
+      operationId: pedidosGET
+      parameters:
+      - name: status
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - pendente
+          - preparando
+          - pronto
+          - entregue
+      - name: mesaId
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Lista de pedidos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Pedido"
+                x-content-type: application/json
+      x-swagger-router-controller: Pedidos
+    post:
+      tags:
+      - Pedidos
+      summary: Cria novo pedido
+      operationId: pedidosPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PedidoInput"
+        required: true
+      responses:
+        "201":
+          description: Pedido criado
+      x-swagger-router-controller: Pedidos
+  /funcionarios:
+    get:
+      tags:
+      - Funcionários
+      summary: Lista funcionários
+      operationId: funcionariosGET
+      parameters:
+      - name: cargo
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+          enum:
+          - ativo
+          - inativo
+      responses:
+        "200":
+          description: Lista de funcionários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Funcionario"
+                x-content-type: application/json
+      x-swagger-router-controller: Funcionrios
+components:
+  schemas:
+    ItemMenu:
+      required:
+      - categoria
+      - nome
+      - preco
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        categoria:
+          type: string
+        disponivel:
+          type: boolean
+      example:
+        preco: 6.02745618307040320615897144307382404804229736328125
+        categoria: categoria
+        disponivel: true
+        nome: nome
+        id: 0
+        descricao: descricao
+    ItemMenuInput:
+      required:
+      - categoria
+      - nome
+      - preco
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        preco:
+          type: number
+        categoria:
+          type: string
+        disponivel:
+          type: boolean
+    Mesa:
+      required:
+      - capacidade
+      - numero
+      type: object
+      properties:
+        id:
+          type: integer
+        numero:
+          type: integer
+        capacidade:
+          type: integer
+        status:
+          type: string
+          enum:
+          - livre
+          - ocupada
+          - reservada
+      example:
+        numero: 6
+        capacidade: 1
+        id: 0
+        status: livre
+    MesaInput:
+      required:
+      - capacidade
+      - numero
+      type: object
+      properties:
+        numero:
+          type: integer
+        capacidade:
+          type: integer
+    Reserva:
+      required:
+      - clienteNome
+      - data
+      - hora
+      - mesaId
+      - pessoas
+      type: object
+      properties:
+        id:
+          type: integer
+        mesaId:
+          type: integer
+        clienteNome:
+          type: string
+        data:
+          type: string
+          format: date
+        hora:
+          type: string
+          format: time
+        pessoas:
+          type: integer
+      example:
+        pessoas: 1
+        mesaId: 6
+        data: 2000-01-23
+        hora: hora
+        clienteNome: clienteNome
+        id: 0
+    ReservaInput:
+      required:
+      - clienteNome
+      - data
+      - hora
+      - pessoas
+      type: object
+      properties:
+        clienteNome:
+          type: string
+        data:
+          type: string
+          format: date
+        hora:
+          type: string
+          format: time
+        pessoas:
+          type: integer
+    Pedido:
+      required:
+      - itens
+      - mesaId
+      - status
+      type: object
+      properties:
+        id:
+          type: integer
+        mesaId:
+          type: integer
+        status:
+          type: string
+          enum:
+          - pendente
+          - preparando
+          - pronto
+          - entregue
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
+        total:
+          type: number
+      example:
+        itens:
+        - itemId: 1
+          observacoes: observacoes
+          quantidade: 5
+        - itemId: 1
+          observacoes: observacoes
+          quantidade: 5
+        total: 5.63737665663332876420099637471139430999755859375
+        mesaId: 6
+        id: 0
+        status: pendente
+    ItemPedido:
+      required:
+      - itemId
+      - quantidade
+      type: object
+      properties:
+        itemId:
+          type: integer
+        quantidade:
+          type: integer
+        observacoes:
+          type: string
+      example:
+        itemId: 1
+        observacoes: observacoes
+        quantidade: 5
+    PedidoInput:
+      required:
+      - itens
+      - mesaId
+      type: object
+      properties:
+        mesaId:
+          type: integer
+        itens:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemPedido"
+    Funcionario:
+      required:
+      - cargo
+      - email
+      - nome
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        cargo:
+          type: string
+        email:
+          type: string
+        status:
+          type: string
+          enum:
+          - ativo
+          - inativo
+      example:
+        nome: nome
+        id: 0
+        cargo: cargo
+        email: email
+        status: ativo

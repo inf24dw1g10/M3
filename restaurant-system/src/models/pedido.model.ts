@@ -2,7 +2,13 @@ import {Entity, model, property, belongsTo, hasMany} from '@loopback/repository'
 import {Mesa} from './mesa.model';
 import {ItemPedido} from './item-pedido.model';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'pedidos'
+    }
+  }
+})
 export class Pedido extends Entity {
   @property({
     type: 'number',
@@ -11,22 +17,43 @@ export class Pedido extends Entity {
   })
   id?: number;
 
-  @belongsTo(() => Mesa)
-  mesaId: number;
+  @belongsTo(() => Mesa, {keyTo: 'id', name: 'mesa'})
+  mesa_id: number;
 
   @property({
     type: 'string',
-    default: 'pendente',
+    mysql: {
+      columnName: 'status'
+    }
   })
   status?: 'pendente' | 'preparando' | 'pronto' | 'entregue';
 
   @property({
     type: 'number',
-    default: 0,
+    mysql: {
+      columnName: 'total'
+    },
+    default: 0
   })
-  total?: number;
+  total: number;
 
-  @hasMany(() => ItemPedido)
+  @property({
+    type: 'date',
+    mysql: {
+      columnName: 'created_at'
+    }
+  })
+  createdAt?: string;
+
+  @property({
+    type: 'date',
+    mysql: {
+      columnName: 'updated_at'
+    }
+  })
+  updatedAt?: string;
+
+  @hasMany(() => ItemPedido, {keyTo: 'pedido_id'})
   itens: ItemPedido[];
 
   constructor(data?: Partial<Pedido>) {

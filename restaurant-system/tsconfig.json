@@ -3,7 +3,13 @@
   "extends": "@loopback/build/config/tsconfig.common.json",
   "compilerOptions": {
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "composite": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "esModuleInterop": true
   },
   "include": ["src"]
 }

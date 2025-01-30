@@ -2,7 +2,13 @@ import {Entity, model, property, hasMany} from '@loopback/repository';
 import {Pedido} from './pedido.model';
 import {Reserva} from './reserva.model';
 
-@model()
+@model({
+  settings: {
+    mysql: {
+      table: 'mesas'
+    }
+  }
+})
 export class Mesa extends Entity {
   @property({
     type: 'number',
@@ -14,25 +20,51 @@ export class Mesa extends Entity {
   @property({
     type: 'number',
     required: true,
+    mysql: {
+      columnName: 'numero'
+    }
   })
   numero: number;
 
   @property({
     type: 'number',
     required: true,
+    mysql: {
+      columnName: 'capacidade'
+    }
   })
   capacidade: number;
 
   @property({
     type: 'string',
+    required: false,
     default: 'livre',
+    mysql: {
+      columnName: 'status'
+    }
   })
   status?: 'livre' | 'ocupada' | 'reservada';
 
-  @hasMany(() => Pedido)
+  @property({
+    type: 'date',
+    mysql: {
+      columnName: 'created_at'
+    }
+  })
+  createdAt?: string;
+
+  @property({
+    type: 'date',
+    mysql: {
+      columnName: 'updated_at'
+    }
+  })
+  updatedAt?: string;
+
+  @hasMany(() => Pedido, {keyTo: 'mesa_id'})
   pedidos: Pedido[];
 
-  @hasMany(() => Reserva)
+  @hasMany(() => Reserva, {keyTo: 'mesa_id'})
   reservas: Reserva[];
 
   constructor(data?: Partial<Mesa>) {
