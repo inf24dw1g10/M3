@@ -1,3 +1,4 @@
+import React from 'react';
 import { Admin, Resource } from 'react-admin';
 import simpleRestProvider from 'ra-data-simple-rest';
 import { MesaList, MesaEdit, MesaCreate } from './resources/mesas';
@@ -8,7 +9,6 @@ import RestaurantIcon from '@mui/icons-material/Restaurant';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import EventIcon from '@mui/icons-material/Event';
-import React from 'react';
 
 const App = () => (
   <Admin dataProvider={simpleRestProvider('http://localhost:3000/api')}>
